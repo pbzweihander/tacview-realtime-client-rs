@@ -10,7 +10,7 @@ fn hash_password(password: &str) -> String {
     const CRC: Crc<u64> = Crc::<u64>::new(&CRC_64_ECMA_182);
 
     let checksum = CRC.checksum(password.as_bytes());
-    format!("{}", checksum)
+    format!("{checksum}")
 }
 
 pub async fn connect<A>(addr: A, username: &str, password: &str) -> Result<BufStream<TcpStream>>
@@ -70,7 +70,7 @@ pub async fn from_tcp_stream(
         .await
         .map_err(Error::TcpWrite)?;
     tcp_stream
-        .write_all(format!("{}\n", username).as_bytes())
+        .write_all(format!("{username}\n").as_bytes())
         .await
         .map_err(Error::TcpWrite)?;
     tcp_stream
