@@ -51,10 +51,10 @@ async fn main() {
                 state.objects.remove(&id);
             }
             Record::Frame(timeframe) => {
-                println!("new timeframe: {}", timeframe);
+                println!("new timeframe: {timeframe}");
             }
             Record::Event(event) => {
-                println!("new event: {:?}", event);
+                println!("new event: {event:?}");
             }
             Record::GlobalProperties(global_properties) => {
                 for global_property in global_properties {
@@ -71,6 +71,6 @@ async fn main() {
             }
         }
 
-        println!("state: {:?}", state);
+        println!("state: {state:?}");
     }
 }

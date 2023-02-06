@@ -25,6 +25,6 @@ async fn main() {
     loop {
         let record = reader.next().await.expect("failed to read next record");
 
-        println!("{:#?}", record);
+        println!("{record:#?}");
     }
 }
