@@ -91,7 +91,7 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_parse_comman() {
+    fn test_parse_comma() {
         let line = "a=1,b=2,c=3,d=4";
         let expected = vec![
             "a=1".to_string(),
