@@ -71,6 +71,11 @@ async fn main() {
             }
         }
 
-        println!("state: {state:?}");
+        println!("header: {:?}", state.acmi_header);
+        println!("global_properties: {:?}", state.global_properties);
+        for (id, properties) in &state.objects {
+            println!("object {}: {:?}", id, properties);
+        }
+        println!();
     }
 }
