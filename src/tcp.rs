@@ -1,4 +1,4 @@
-use crc::{Crc, CRC_64_ECMA_182};
+use crc::{Crc, CRC_32_ISO_HDLC};
 use tokio::{
     io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufStream},
     net::{TcpStream, ToSocketAddrs},
@@ -7,10 +7,15 @@ use tokio::{
 use crate::error::{Error, Result};
 
 fn hash_password(password: &str) -> String {
-    const CRC: Crc<u64> = Crc::<u64>::new(&CRC_64_ECMA_182);
-
-    let checksum = CRC.checksum(password.as_bytes());
-    format!("{checksum}")
+    const CRC: Crc<u32> = Crc::<u32>::new(&CRC_32_ISO_HDLC);
+    let password_utf16 = password.encode_utf16();
+    let mut password_bytes = Vec::<u8>::with_capacity(password.len() * 2);
+    for c in password_utf16 {
+        password_bytes.push((c >> 0) as u8);
+        password_bytes.push((c >> 8) as u8);
+    }
+    let checksum = CRC.checksum(&password_bytes);
+    format!("{checksum:x}")
 }
 
 pub async fn connect<A>(addr: A, username: &str, password: &str) -> Result<BufStream<TcpStream>>
